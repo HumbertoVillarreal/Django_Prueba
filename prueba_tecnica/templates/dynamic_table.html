@@ -1,0 +1,84 @@
+{% extends "./layouts/base.html" %}
+{% load static %}
+
+{% block title %} Table {% endblock title %}
+
+{% block content %}
+
+
+<div class="container">
+
+    <div class="row">
+
+        <h2 class="title">Products List:</h2>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-1">
+
+            <a class="btn btn-primary" href="{% url 'product_form' %}">Add</a>
+
+        </div>
+
+        
+        <div class="col-11">
+                <input class="form-control me-2" type="search" name="searchbar" id="searchbar"  placeholder="Product name...">
+            
+        </div>
+        
+
+    </div>
+
+    <div class="row">
+        
+        <table id="productTable" class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Descripcion</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.nombre }}</td>
+                    <td>{{ product.descripcion }}</td>
+                    <td>{{ product.precio }}</td>
+                    <td>{{ product.cantidad }}</td>
+                    <td>
+                        <form class="inv" method="post" action="{% url 'delete' id=product.id %}">
+                            {% csrf_token %}
+                            <button id="btn-delete" type="submit" name="submit_button">
+                                <img src="{% static '/img/delete.png' %}">
+                            </button>
+                        </form>
+                        
+
+                    </td>
+                    <td>
+                        <a href="{% url 'edit_form' id=product.id %}">
+                            <img src="{% static '/img/edit.png' %}">
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+
+</div>
+
+
+
+{% endblock content %}
